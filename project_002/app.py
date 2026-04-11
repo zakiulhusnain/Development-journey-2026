@@ -72,6 +72,7 @@ def login():
 
     if request.method == "POST":
 
+        # username = request.form["username"]
         email = request.form["email"]
         password = request.form["password"]
 
@@ -85,7 +86,7 @@ def login():
         conn.close()
 
         if user:
-            return redirect(url_for("result"))
+            return redirect(url_for("result", username=user["username"],email=user["email"]))
         else:
             return "Invalid email or password"
 
@@ -96,7 +97,9 @@ def login():
 # ===============================
 @app.route("/result")
 def result():
-    return render_template("result.html")
+    username = request.args.get("username")
+    email = request.args.get("email")
+    return render_template("result.html", username=username, email=email)
 
 # ===============================
 # RUN APP
